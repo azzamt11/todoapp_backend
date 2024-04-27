@@ -18,11 +18,11 @@ func GetConfig() *Config {
 	return &Config{
 		DB: &DBConfig{
 			Dialect:  "mysql",
-			Host:     "127.0.0.1",
-			Port:     3306,
-			Username: "guest",
-			Password: "Guest0000!",
-			Name:     "todoapp",
+			Host:     "viaduct.proxy.rlwy.net",
+			Port:     29329,
+			Username: "root",
+			Password: "pOxDiuBlXdQCkjPzWJABTljdaHYUwOIdG",
+			Name:     "railway",
 			Charset:  "utf8",
 		},
 	}
