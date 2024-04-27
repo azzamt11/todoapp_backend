@@ -21,7 +21,7 @@ func GetConfig() *Config {
 			Host:     "viaduct.proxy.rlwy.net",
 			Port:     29329,
 			Username: "root",
-			Password: "pOxDiuBlXdQCkjPzWJABTljdaHYUwOIdG",
+			Password: "OxDiuBlXdQCkjPzWJABTljdaHYUwOIdG",
 			Name:     "railway",
 			Charset:  "utf8",
 		},
