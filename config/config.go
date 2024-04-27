@@ -1,9 +1,6 @@
 package config
 
-import (
-	"github.com/joho/godotenv"
-	"os"
-)
+import "github.com/joho/godotenv"
 
 type Config struct {
 	DB *DBConfig
@@ -20,12 +17,10 @@ type DBConfig struct {
 }
 
 func GetConfig() *Config {
-	godotenv.Load(".env")
-
 	return &Config{
 		DB: &DBConfig{
 			Dialect:  "mysql",
-			Host:     os.Getenv("HOST"),
+			Host:     "viaduct.proxy.rlwy.net",
 			Port:     29329,
 			Username: "root",
 			Password: "OxDiuBlXdQCkjPzWJABTljdaHYUwOIdG",
