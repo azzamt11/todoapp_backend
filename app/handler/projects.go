@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
-	"github.com/azzamt11/btodoapp_backend/app/model"
+	"github.com/azzamt11/todoapp_backend/app/model"
 )
 
 func GetAllProjects(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
