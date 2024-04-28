@@ -1,5 +1,7 @@
 package config
 
+import "os"
+
 type Config struct {
 	DB *DBConfig
 }
@@ -17,13 +19,13 @@ type DBConfig struct {
 func GetConfig() *Config {
 	return &Config{
 		DB: &DBConfig{
-			Dialect:  "mysql",
-			Host:     "viaduct.proxy.rlwy.net",
-			Port:     29329,
-			Username: "root",
-			Password: "OxDiuBlXdQCkjPzWJABTljdaHYUwOIdG",
-			Name:     "railway",
-			Charset:  "utf8",
+			Dialect:  os.Getenv("DB_DIALECT"),
+			Host:     os.Getenv("DB_HOST"),
+			Port:     29329, // Assign port obtained from environment variable
+			Username: os.Getenv("DB_USERNAME"),
+			Password: os.Getenv("DB_PASSWORD"),
+			Name:     os.Getenv("DB_NAME"),
+			Charset:  os.Getenv("DB_CHARSET"),
 		},
 	}
 }
