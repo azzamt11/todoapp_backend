@@ -1,6 +1,9 @@
 package config
 
-import "os"
+import (
+	"os"
+	"github.com/joho/godotenv"
+)
 
 type Config struct {
 	DB *DBConfig
@@ -17,6 +20,8 @@ type DBConfig struct {
 }
 
 func GetConfig() *Config {
+	godotenv.Load(".env")
+
 	return &Config{
 		DB: &DBConfig{
 			Dialect:  os.Getenv("DB_DIALECT"),
