@@ -10,10 +10,37 @@ import (
 )
 
 func GetAllProjects(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
-	projects := []model.Project{}
-	db.Find(&projects)
-	respondJSON(w, http.StatusOK, projects)
+    page, err := strconv.Atoi(r.URL.Query().Get("page"))
+    if err != nil || page < 1 {
+        page = 1
+    }
+    pageSize, err := strconv.Atoi(r.URL.Query().Get("page_size"))
+    if err != nil || pageSize < 1 {
+        pageSize = 10
+    }
+
+    sortBy := r.URL.Query().Get("sort_by")
+    sortOrder := r.URL.Query().Get("sort_order")
+
+    query := db.Offset((page - 1) * pageSize).Limit(pageSize)
+    if sortBy != "" {
+        switch sortBy {
+        case "updated":
+            query = query.Order("updated_at" + sortOrder)
+        case "created":
+            query = query.Order("created_at " + sortOrder)
+        default:
+            http.Error(w, "Unsupported sorting criteria", http.StatusBadRequest)
+            return
+        }
+    }
+
+    projects := []model.Project{}
+    query.Find(&projects)
+
+    respondJSON(w, http.StatusOK, projects)
 }
+
 
 func CreateProject(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	project := model.Project{}

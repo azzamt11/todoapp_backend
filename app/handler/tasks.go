@@ -11,20 +11,55 @@ import (
 )
 
 func GetAllTasks(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
+    vars := mux.Vars(r)
+    projectTitle := vars["title"]
 
-	projectTitle := vars["title"]
-	project := getProjectOr404(db, projectTitle, w, r)
-	if project == nil {
-		return
-	}
+    project := getProjectOr404(db, projectTitle, w, r)
+    if project == nil {
+        return
+    }
 
-	tasks := []model.Task{}
-	if err := db.Model(&project).Related(&tasks).Error; err != nil {
-		respondError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	respondJSON(w, http.StatusOK, tasks)
+    page, err := strconv.Atoi(r.URL.Query().Get("page"))
+    if err != nil || page < 1 {
+        page = 1
+    }
+    pageSize, err := strconv.Atoi(r.URL.Query().Get("page_size"))
+    if err != nil || pageSize < 1 {
+        pageSize = 10
+    }
+
+    sortBy := r.URL.Query().Get("sort_by")
+    sortOrder := r.URL.Query().Get("sort_order")
+
+    deadlineFilter := r.URL.Query().Get("deadline")
+
+    query := db.Model(&project).Order("id DESC").Offset((page - 1) * pageSize).Limit(pageSize)
+    if sortBy != "" {
+        switch sortBy {
+        case "title":
+            query = query.Order("title " + sortOrder)
+        case "priority":
+            query = query.Order("priority " + sortOrder)
+		case "deadline":
+            query = query.Order("deadline " + sortOrder)
+        default:
+            http.Error(w, "Unsupported sorting criteria", http.StatusBadRequest)
+            return
+        }
+    }
+    
+    if deadlineFilter != "" {
+        query = query.Where("deadline = ?", deadlineFilter)
+    }
+
+    tasks := []model.Task{}
+    if err := query.Find(&tasks).Error; err != nil {
+        respondError(w, http.StatusInternalServerError, err.Error())
+        return
+    }
+
+    respondJSON(w, http.StatusOK, tasks)
+	//request example: GET /projects/{title}/tasks?page=2&page_size=10&sort_by=title&sort_order=asc&deadline=2024-12-31
 }
 
 func CreateTask(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
