@@ -33,6 +33,9 @@ func GetAllTasks(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 
     deadlineFilter := r.URL.Query().Get("deadline")
 
+    // Parse search query parameter
+    searchQuery := r.URL.Query().Get("search")
+
     query := db.Model(&project).Order("id DESC").Offset((page - 1) * pageSize).Limit(pageSize)
     if sortBy != "" {
         switch sortBy {
@@ -40,16 +43,21 @@ func GetAllTasks(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
             query = query.Order("title " + sortOrder)
         case "priority":
             query = query.Order("priority " + sortOrder)
-		case "deadline":
+        case "deadline":
             query = query.Order("deadline " + sortOrder)
         default:
             http.Error(w, "Unsupported sorting criteria", http.StatusBadRequest)
             return
         }
     }
-    
+
     if deadlineFilter != "" {
         query = query.Where("deadline = ?", deadlineFilter)
+    }
+
+    // Apply search filter if search query is provided
+    if searchQuery != "" {
+        query = query.Where("title LIKE ?", "%"+searchQuery+"%")
     }
 
     tasks := []model.Task{}
@@ -59,8 +67,8 @@ func GetAllTasks(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
     }
 
     respondJSON(w, http.StatusOK, tasks)
-	//request example: GET /projects/{title}/tasks?page=2&page_size=10&sort_by=title&sort_order=asc&deadline=2024-12-31
 }
+//request example: GET /projects/{title}/tasks?page=2&page_size=10&sort_by=title&sort_order=asc&deadline=2024-12-31
 
 func CreateTask(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)

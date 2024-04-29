@@ -23,6 +23,9 @@ func GetAllProjects(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
     sortBy := r.URL.Query().Get("sort_by")
     sortOrder := r.URL.Query().Get("sort_order")
 
+    // Parse search query parameter
+    searchQuery := r.URL.Query().Get("search")
+
     query := db.Offset((page - 1) * pageSize).Limit(pageSize)
     if sortBy != "" {
         switch sortBy {
@@ -34,6 +37,11 @@ func GetAllProjects(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
             http.Error(w, "Unsupported sorting criteria", http.StatusBadRequest)
             return
         }
+    }
+
+    // Apply search filter if search query is provided
+    if searchQuery != "" {
+        query = query.Where("name LIKE ?", "%"+searchQuery+"%")
     }
 
     projects := []model.Project{}
