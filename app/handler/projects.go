@@ -42,8 +42,8 @@ func GetAllProjects(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
     // Apply search filter if search query is provided
     if searchQuery != "" {
         // Use ILIKE for case-insensitive search in PostgreSQL, use LIKE for case-sensitive search in MySQL
-        query = query.Where("name ILIKE ?", "%"+searchQuery+"%") // Use ILIKE for PostgreSQL
-        // query = query.Where("name LIKE ?", "%"+searchQuery+"%") // Use LIKE for MySQL
+        //query = query.Where("name ILIKE ?", "%"+searchQuery+"%") // Use ILIKE for PostgreSQL
+        query = query.Where("name LIKE ?", "%"+searchQuery+"%") // Use LIKE for MySQL
     }
 
     projects := []model.Project{}
