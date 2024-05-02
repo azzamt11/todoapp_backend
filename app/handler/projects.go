@@ -76,7 +76,7 @@ func CreateProject(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 func GetProject(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	id := _ := strconv.Atoi(vars["id"])
+	id, _:= strconv.Atoi(vars["id"])
 	project := getProjectOr404(db, id, w, r)
 	if project == nil {
 		return
@@ -87,7 +87,7 @@ func GetProject(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 func UpdateProject(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	id := _ := strconv.Atoi(vars["id"])
+	id, _:= strconv.Atoi(vars["id"])
 	project := getProjectOr404(db, id, w, r)
 	if project == nil {
 		return
@@ -110,7 +110,7 @@ func UpdateProject(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 func DeleteProject(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	id := _ := strconv.Atoi(vars["id"])
+	id, _ := strconv.Atoi(vars["id"])
 	project := getProjectOr404(db, id, w, r)
 	if project == nil {
 		return
@@ -125,7 +125,7 @@ func DeleteProject(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 func ArchiveProject(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	id := _ := strconv.Atoi(vars["id"])
+	id, _:= strconv.Atoi(vars["id"])
 	project := getProjectOr404(db, id, w, r)
 	if project == nil {
 		return
@@ -141,7 +141,7 @@ func ArchiveProject(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 func RestoreProject(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
-	id := _ := strconv.Atoi(vars["id"])
+	id, _:= strconv.Atoi(vars["id"])
 	project := getProjectOr404(db, id, w, r)
 	if project == nil {
 		return
