@@ -29,8 +29,10 @@ func GetAllProjects(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
     query := db.Offset((page - 1) * pageSize).Limit(pageSize)
     if sortBy != "" {
         switch sortBy {
+		case "title":
+            query = query.Order("title " + sortOrder)
         case "updated":
-            query = query.Order("updated_at" + sortOrder)
+            query = query.Order("updated_at " + sortOrder)
         case "created":
             query = query.Order("created_at " + sortOrder)
         default:
