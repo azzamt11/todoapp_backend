@@ -50,13 +50,13 @@ func (a *App) setRouters() {
 	a.Delete("/projects/{id}/archive", a.handleRequest(handler.RestoreProject))
 
 	// Routing for handling the tasks
-	a.Get("/projects/{projectID}/tasks", a.handleRequest(handler.GetAllTasks))
-	a.Post("/projects/{projectID}/tasks", a.handleRequest(handler.CreateTask))
-	a.Get("/projects/{projectID}/tasks/{id:[0-9]+}", a.handleRequest(handler.GetTask))
-	a.Put("/projects/{projectID}/tasks/{id:[0-9]+}", a.handleRequest(handler.UpdateTask))
-	a.Delete("/projects/{projectID}/tasks/{id:[0-9]+}", a.handleRequest(handler.DeleteTask))
-	a.Put("/projects/{projectID}/tasks/{id:[0-9]+}/complete", a.handleRequest(handler.CompleteTask))
-	a.Delete("/projects/{projectID}/tasks/{id:[0-9]+}/complete", a.handleRequest(handler.UndoTask))
+	a.Get("/projects/{projectID:[0-9]+}/tasks", a.handleRequest(handler.GetAllTasks))
+	a.Post("/projects/{projectID:[0-9]+}/tasks", a.handleRequest(handler.CreateTask))
+	a.Get("/projects/{projectID:[0-9]+}/tasks/{id:[0-9]+}", a.handleRequest(handler.GetTask))
+	a.Put("/projects/{projectID:[0-9]+}/tasks/{id:[0-9]+}", a.handleRequest(handler.UpdateTask))
+	a.Delete("/projects/{projectID:[0-9]+}/tasks/{id:[0-9]+}", a.handleRequest(handler.DeleteTask))
+	a.Put("/projects/{projectID:[0-9]+}/tasks/{id:[0-9]+}/complete", a.handleRequest(handler.CompleteTask))
+	a.Delete("/projects/{projectID:[0-9]+}/tasks/{id:[0-9]+}/complete", a.handleRequest(handler.UndoTask))
 }
 
 // Get wraps the router for GET method
