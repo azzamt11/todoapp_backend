@@ -160,7 +160,7 @@ func DeleteTask(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := db.Delete(&project).Error; err != nil {
+	if err := db.Delete(&task).Error; err != nil {
 		respondError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
