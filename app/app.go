@@ -43,11 +43,11 @@ func (a *App) setRouters() {
 	// Routing for handling the projects
 	a.Get("/projects", a.handleRequest(handler.GetAllProjects))
 	a.Post("/projects", a.handleRequest(handler.CreateProject))
-	a.Get("/projects/{title}", a.handleRequest(handler.GetProject))
-	a.Put("/projects/{title}", a.handleRequest(handler.UpdateProject))
-	a.Delete("/projects/{title}", a.handleRequest(handler.DeleteProject))
-	a.Put("/projects/{title}/archive", a.handleRequest(handler.ArchiveProject))
-	a.Delete("/projects/{title}/archive", a.handleRequest(handler.RestoreProject))
+	a.Get("/projects/{id}", a.handleRequest(handler.GetProject))
+	a.Put("/projects/{id}", a.handleRequest(handler.UpdateProject))
+	a.Delete("/projects/{id}", a.handleRequest(handler.DeleteProject))
+	a.Put("/projects/{id}/archive", a.handleRequest(handler.ArchiveProject))
+	a.Delete("/projects/{id}/archive", a.handleRequest(handler.RestoreProject))
 
 	// Routing for handling the tasks
 	a.Get("/projects/{projectID}/tasks", a.handleRequest(handler.GetAllTasks))
