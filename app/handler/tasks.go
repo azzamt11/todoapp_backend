@@ -36,7 +36,7 @@ func GetAllTasks(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
     // Parse search query parameter
     searchQuery := r.URL.Query().Get("search")
 
-    query := db.Model(&project).Order("id DESC").Offset((page - 1) * pageSize).Limit(pageSize).Where("projectID = ?", projectID)
+    query := db.Model(&project).Order("id DESC").Offset((page - 1) * pageSize).Limit(pageSize).Where("id = ?", projectID)
     if sortBy != "" {
         switch sortBy {
         case "title":
