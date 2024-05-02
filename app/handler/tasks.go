@@ -41,6 +41,10 @@ func GetAllTasks(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
         switch sortBy {
         case "title":
             query = query.Order("title " + sortOrder)
+		case "created":
+            query = query.Order("created_at " + sortOrder)
+		case "updated":
+            query = query.Order("updated_at " + sortOrder)
         case "priority":
             query = query.Order("priority " + sortOrder)
         case "deadline":
